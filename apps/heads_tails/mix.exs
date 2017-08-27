@@ -1,8 +1,8 @@
-defmodule Lobby.Mixfile do
+defmodule HeadsTails.Mixfile do
   use Mix.Project
 
   def project do
-    [app: :lobby,
+    [app: :heads_tails,
      version: "0.1.0",
      build_path: "../../_build",
      config_path: "../../config/config.exs",
@@ -20,7 +20,7 @@ defmodule Lobby.Mixfile do
   def application do
     # Specify extra applications you'll use from Erlang/Elixir
     [extra_applications: [:logger],
-     mod: {Lobby.Application, []}]
+     mod: {HeadsTails.Application, []}]
   end
 
   # Dependencies can be Hex packages:
@@ -39,7 +39,7 @@ defmodule Lobby.Mixfile do
   defp deps do
     [
       { :uuid, "~> 1.1" },
-      { :qex, "~> 0.3" },
+      { :lobby, in_umbrella: true },
     ]
   end
 end

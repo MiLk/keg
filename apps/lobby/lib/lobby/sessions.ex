@@ -1,4 +1,6 @@
 defmodule Lobby.Sessions do
+  @moduledoc false
+
   use GenServer
 
   def start_link do
@@ -31,24 +33,15 @@ defmodule Lobby.Sessions do
 
   # Server
 
-  def handle_call({:connect, args}, _from, state = %{sessions: sessions}) do
+  def handle_call({:connect, args}, {client_pid, _tag}, state = %{sessions: sessions}) do
     uuid = generate_uuid(sessions)
-    case Map.fetch(sessions, uuid) do
-      {:ok, pid} -> {:reply, {:reconnected, uuid, pid}, state}
-      :error ->
-        {status, pid} =
-          case Supervisor.start_child(Lobby.Sessions.Supervisor, [uuid, args]) do
-            {:ok, pid} -> {:connected, pid}
-            {:error, {:already_started, pid}} -> {:reconnected, pid}
-            {:error, error} ->
-              error |> IO.inspect()
-             {:error, nil}
-          end
-        new_state = case pid do
-          nil -> state
-          _ -> Kernel.put_in(state, [:sessions, uuid], pid)
-        end
-        {:reply, {status, uuid, pid}, new_state}
+    case Supervisor.start_child(Lobby.Sessions.Supervisor, [uuid, client_pid, args]) do
+      {:ok, pid} ->
+        new_state = Kernel.put_in(state, [:sessions, uuid], pid)
+        {:reply, {uuid, pid}, new_state}
+      {:error, error} ->
+        error |> IO.inspect()
+       {:reply, :error, state}
     end
   end
 
@@ -78,6 +71,8 @@ defmodule Lobby.Sessions do
 end
 
 defmodule Lobby.Sessions.Supervisor do
+  @moduledoc false
+
   use Supervisor
 
   def start_link do
@@ -87,25 +82,8 @@ defmodule Lobby.Sessions.Supervisor do
   def init(:ok) do
     import Supervisor.Spec, warn: false
 
-    children = [worker(Lobby.Sessions.Session, [], restart: :transient)]
+    children = [worker(Lobby.Session, [], restart: :transient)]
     opts = [strategy: :simple_one_for_one, name: __MODULE__]
     supervise(children, opts)
-  end
-end
-
-defmodule Lobby.Sessions.Session do
-  use GenServer
-
-  def start_link(uuid, args) do
-    GenServer.start_link(__MODULE__, [uuid, args], name: Module.concat(__MODULE__, uuid))
-  end
-
-  def init([uuid, args]) do
-    {:ok, Map.put(args, :uuid, uuid)}
-  end
-
-  def handle_cast(:disconnect, state) do
-    :ok = GenServer.cast(Lobby.Sessions, {:remove, Map.fetch!(state, :uuid)})
-    {:stop, :normal, state}
   end
 end

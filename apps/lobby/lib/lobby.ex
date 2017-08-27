@@ -22,9 +22,16 @@ defmodule Lobby do
   end
 
   @doc """
-  List sessions
+  List games
   """
-  def list do
-    Lobby.Sessions.list()
+  def list_games do
+    Lobby.Games.list()
+  end
+
+  @doc """
+  Join game
+  """
+  def join({_, pid}, game_id) when is_atom(game_id) and is_pid(pid) do
+    Lobby.Session.join(pid, game_id)
   end
 end
