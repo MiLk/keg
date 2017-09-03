@@ -1,0 +1,7 @@
+<div>
+  <ul id="game-list"></ul>
+  <div id="game-ui">
+    <div id="score"></div>
+    <button id="toss">Toss!</button>
+  </div>
+</div>

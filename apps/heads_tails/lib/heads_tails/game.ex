@@ -29,9 +29,9 @@ defmodule HeadsTails.Game do
 
   def handle_cast(:toss, state = %{players: [p1, p2], score: {s1, s2}}) do
     {m1, m2, score} = if :rand.uniform() > 0.5 do
-      {:win, :lose, {s1 + 1, s2}}
+      {:won, :lost, {s1 + 1, s2}}
     else
-      {:lose, :win, {s1, s2 + 1}}
+      {:lost, :won, {s1, s2 + 1}}
     end
     Lobby.Session.notify(p1, {m1, score})
     Lobby.Session.notify(p2, {m2, score})
