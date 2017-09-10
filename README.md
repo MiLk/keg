@@ -1,5 +1,12 @@
 # Keg
 
+## Getting started
+
+* `docker build -t ${USER}/keg:latest -f docker/Dockerfile.build .`
+* `docker push ${USER}/keg`
+
+## Example
+
 ```elixir
 s1 = Lobby.connect(:alice)
 s2 = Lobby.connect(:bob)
