@@ -15,3 +15,11 @@ import_config "../apps/*/config/config.exs"
 #       level: :info,
 #       format: "$date $time [$level] $metadata$message\n",
 #       metadata: [:user_id]
+
+if Mix.env == :prod do
+  config :peerage,
+         via: Peerage.Via.Dns,
+         dns_name: "keg-service-headless.default.svc.cluster.local",
+         app_name: "keg",
+         interval: 5
+end

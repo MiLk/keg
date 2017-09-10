@@ -4,7 +4,7 @@ ENV HOME=/app/ TERM=xterm
 
 WORKDIR /app
 
-ENV MIX_ENV=prod
+ENV MIX_ENV=prod REPLACE_OS_VARS=true
 ENV ERL_AFLAGS="-kernel shell_history enabled"
 
 RUN apk add --no-cache nodejs nodejs-npm
@@ -49,7 +49,7 @@ RUN apk add --no-cache bash libcrypto1.0
 WORKDIR /app
 
 EXPOSE 4000
-ENV PORT=4000 MIX_ENV=prod SHELL=/bin/sh
+ENV PORT=4000 MIX_ENV=prod REPLACE_OS_VARS=true SHELL=/bin/bash
 
 COPY --from=0 /app/_build/prod/rel/keg/releases/0.1.0/keg.tar.gz ./
 RUN tar xf keg.tar.gz && rm keg.tar.gz

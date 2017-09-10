@@ -11,6 +11,7 @@ defmodule Keg.Mixfile do
   defp deps do
     [
       {:distillery, "~> 1.0"},
+      {:peerage, "~> 1.0.2"},
     ]
   end
 end

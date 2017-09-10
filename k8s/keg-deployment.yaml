@@ -12,6 +12,7 @@ spec:
       containers:
         - name: keg
           image: milk/keg:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 4000
           args: ["foreground"]
@@ -23,3 +24,12 @@ spec:
                 secretKeyRef:
                   name: secrets
                   key: secret_key_base
+            - name: MY_POD_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+            - name: ERLANG_COOKIE
+              valueFrom:
+                secretKeyRef:
+                  name: secrets
+                  key: erlang_cookie

@@ -7,6 +7,7 @@
 * `kubectl create -f k8s/keg-secrets.yaml`
 * `kubectl apply -f k8s/keg-deployment.yaml`
 * `kubectl apply -f k8s/keg-service.yaml`
+* `kubectl apply -f k8s/keg-service-headless.yaml`
 
 ## Example
 

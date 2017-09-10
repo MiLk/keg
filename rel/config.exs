@@ -52,5 +52,6 @@ release :keg do
     lobby: :permanent,
     web: :permanent
   ]
+  set vm_args: "./rel/vm.args"
 end
 
