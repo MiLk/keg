@@ -9,6 +9,8 @@ defmodule Keg.Mixfile do
   end
 
   defp deps do
-    []
+    [
+      {:distillery, "~> 1.0"},
+    ]
   end
 end

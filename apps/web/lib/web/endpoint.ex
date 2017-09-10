@@ -48,10 +48,30 @@ defmodule Web.Endpoint do
   """
   def init(_key, config) do
     if config[:load_from_system_env] do
-      port = System.get_env("PORT") || raise "expected the PORT environment variable to be set"
-      {:ok, Keyword.put(config, :http, [:inet6, port: port])}
+      env =
+        [:port, :host, :secret_key_base]
+        |> Enum.map(&{&1, get_env!(&1)})
+        |> Map.new
+
+      {
+        :ok,
+        config
+        |> Keyword.put(:http, [port: env.port])
+        |> Keyword.put(:url, [host: env.host, port: env.port])
+        |> Keyword.put(:secret_key_base, env.secret_key_base)
+      }
     else
       {:ok, config}
     end
+  end
+
+  defp get_env!(name) when is_atom(name) do
+    name
+    |> Atom.to_string
+    |> String.upcase
+    |> get_env!
+  end
+  defp get_env!(name) when is_bitstring(name) do
+    System.get_env(name) || raise "expected the #{name} environment variable to be set"
   end
 end
