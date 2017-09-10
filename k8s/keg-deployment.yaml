@@ -1,0 +1,25 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: keg-deployment
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: keg
+    spec:
+      containers:
+        - name: keg
+          image: milk/keg:latest
+          ports:
+            - containerPort: 4000
+          args: ["foreground"]
+          env:
+            - name: HOST
+              value: "example.com"
+            - name: SECRET_KEY_BASE
+              valueFrom:
+                secretKeyRef:
+                  name: secrets
+                  key: secret_key_base

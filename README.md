@@ -1,9 +1,12 @@
-# Keg
+# KEG: Kubernetes Elixir Game platform
 
 ## Getting started
 
 * `docker build -t ${USER}/keg:latest -f docker/Dockerfile.build .`
 * `docker push ${USER}/keg`
+* `kubectl create -f k8s/keg-secrets.yaml`
+* `kubectl apply -f k8s/keg-deployment.yaml`
+* `kubectl apply -f k8s/keg-service.yaml`
 
 ## Example
 
