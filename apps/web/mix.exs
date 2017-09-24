@@ -42,6 +42,7 @@ defmodule Web.Mixfile do
       {:phoenix_live_reload, "~> 1.0", only: :dev},
       {:gettext, "~> 0.11"},
       {:cowboy, "~> 1.0"},
+      {:wobserver, "~> 0.1"},
       { :lobby, in_umbrella: true },
       { :heads_tails, in_umbrella: true },
     ]

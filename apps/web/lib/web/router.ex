@@ -13,6 +13,8 @@ defmodule Web.Router do
     plug :accepts, ["json"]
   end
 
+  forward "/wobserver", Wobserver.Web.Router
+
   scope "/", Web do
     pipe_through :browser # Use the default browser stack
 
