@@ -49,7 +49,7 @@ defmodule Web.Endpoint do
   def init(_key, config) do
     if config[:load_from_system_env] do
       env =
-        [:port, :host, :secret_key_base]
+        [:port, :url_port, :host, :secret_key_base]
         |> Enum.map(&{&1, get_env!(&1)})
         |> Map.new
 
@@ -57,7 +57,7 @@ defmodule Web.Endpoint do
         :ok,
         config
         |> Keyword.put(:http, [port: env.port])
-        |> Keyword.put(:url, [host: env.host, port: env.port])
+        |> Keyword.put(:url, [host: env.host, port: env.url_port])
         |> Keyword.put(:secret_key_base, env.secret_key_base)
       }
     else

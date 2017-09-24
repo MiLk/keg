@@ -5,9 +5,11 @@
 * `docker build -t ${USER}/keg:latest -f docker/Dockerfile.build .`
 * `docker push ${USER}/keg`
 * `kubectl create -f k8s/keg-secrets.yaml`
-* `kubectl apply -f k8s/keg-deployment.yaml`
 * `kubectl apply -f k8s/keg-service.yaml`
 * `kubectl apply -f k8s/keg-service-headless.yaml`
+* Update the `HOST` and `URL_PORT` variables from `k8s/keg-deployment.yaml` with the IP returned by `minikube ip` and the port returned by `kubectl get service keg-service --output='jsonpath="{.spec.ports[0].nodePort}"'`.
+* `kubectl apply -f k8s/keg-deployment.yaml`
+* `minikube service keg-service`
 
 ## Example
 

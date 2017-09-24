@@ -18,7 +18,9 @@ spec:
           args: ["foreground"]
           env:
             - name: HOST
-              value: "example.com"
+              value: "192.168.99.100"
+            - name: URL_PORT
+              value: "32230"
             - name: SECRET_KEY_BASE
               valueFrom:
                 secretKeyRef:

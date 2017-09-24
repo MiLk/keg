@@ -11,7 +11,6 @@ config :web,
 
 # Configures the endpoint
 config :web, Web.Endpoint,
-  url: [host: "localhost"],
   secret_key_base: "OomRWLJaQorFPvmgCGj4pq3//tf7aR8D60nGxuHpNMyb52eitNte3TjU414qKTcQ",
   render_errors: [view: Web.ErrorView, accepts: ~w(html json)],
   pubsub: [name: Web.PubSub,
